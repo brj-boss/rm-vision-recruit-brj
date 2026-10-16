@@ -1,0 +1,28 @@
+# ============ Python 虚拟环境 ============
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# ============ 编辑器 / 操作系统 ============
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ============ 调试临时产物 ============
+*.log
+tmp/
+scratch/
+debug_*.png
+debug_*.mp4
+
+# ============ 原始考核素材 ============
+# 体积大且评委手里已有，不入库；README 中说明素材来源
+data/
+
+# ============ 超大中间产物 ============
+# 注意：需要交付的结果视频 / GIF 仍然要入库
+qA_aim/figures/**/*.raw.mp4
+qA_aim/figures/**/frames/
