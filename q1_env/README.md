@@ -127,6 +127,38 @@ ALL 4 OK
 
 `06`、`07` 两张是**阶段性快照**，随提交次数增加会更新为最新状态。
 
+### 截图预览
+
+以下直接内嵌，无需逐张下载；点击图片可查看原图。
+
+**① 解释器版本**
+
+<img src="screenshots/01_python_version.png" width="620" alt=".venv 中的 Python 3.12.14">
+
+**② 包管理器归属**
+
+<img src="screenshots/02_pip_location.png" width="620" alt="pip 位于仓库 .venv 内">
+
+**③ 依赖安装结果**
+
+<img src="screenshots/03_pip_list.png" width="620" alt="pip list 四个目标包版本">
+
+**④ 可导入性验证**
+
+<img src="screenshots/04_import_check.png" width="620" alt="四个库导入成功，ALL 4 OK">
+
+**⑤ 入库文件清单**
+
+<img src="screenshots/05_repo_files.png" width="620" alt="git ls-files 输出">
+
+**⑥ 提交记录**
+
+<img src="screenshots/06_git_log.png" width="620" alt="git log --oneline">
+
+**⑦ 远程仓库页面**
+
+<img src="screenshots/07_github_repo.png" width="620" alt="GitHub 仓库首页">
+
 ## 6. 文件组织说明
 
 **入库的**
