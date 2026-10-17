@@ -166,8 +166,8 @@ cd D:\rm-vision-recruit-brj
 
 # ③ 看 corner_check.png，把 FAIL 的重拍，重跑 ②
 
-# ④ 标定（--square 填你直尺量出来的值，这里 30.5 是示例）
-.venv\Scripts\python.exe q2_calib\calibrate.py --square 30.5
+# ④ 标定（--square 填你直尺量出来的值，本项目实测为 25.0）
+.venv\Scripts\python.exe q2_calib\calibrate.py --square 25
 ```
 
 **跑完先看重投影误差。** 经验判据：

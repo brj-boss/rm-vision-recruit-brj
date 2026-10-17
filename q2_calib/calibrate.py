@@ -24,7 +24,9 @@ import cv2
 import numpy as np
 
 BOARD_INNER = (9, 6)
-DEFAULT_SQUARE_MM = 18.0
+# 本项目走屏幕方案，方格边长由显示器 PPI 决定，实测 25.0 mm。
+# 若改用 A4 打印版，此处应为 18.0（且必须确认打印未被缩放）。
+DEFAULT_SQUARE_MM = 25.0
 HERE = Path(__file__).parent
 
 
@@ -34,7 +36,7 @@ def parse_args():
     ap.add_argument("--cols", type=int, default=BOARD_INNER[0], help="内角点列数")
     ap.add_argument("--rows", type=int, default=BOARD_INNER[1], help="内角点行数")
     ap.add_argument("--square", type=float, default=DEFAULT_SQUARE_MM,
-                    help="实测方格边长(mm)。标称 18，务必用尺子量 10 格总长除以 10")
+                    help="实测方格边长(mm)。本项目屏幕实测 25.0；A4 打印版为 18.0")
     ap.add_argument("--out", default=str(HERE / "results"))
     ap.add_argument("--figs", default=str(HERE / "q2_figs"))
     return ap.parse_args()
