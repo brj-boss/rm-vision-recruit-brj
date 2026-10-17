@@ -29,6 +29,14 @@ BOARD_INNER = (9, 6)
 DEFAULT_SQUARE_MM = 25.0
 HERE = Path(__file__).parent
 
+# 畸变模型的自由度。手机 ISP 常已做几何矫正，解到 k3 容易过拟合，
+# 表现为「径向映射在画面内折叠」——去畸变图四角撕裂。可按需收紧。
+DIST_FLAGS = {
+    "full": 0,
+    "k3fix": cv2.CALIB_ZERO_TANGENT_DIST | cv2.CALIB_FIX_K3,
+    "k1only": cv2.CALIB_ZERO_TANGENT_DIST | cv2.CALIB_FIX_K2 | cv2.CALIB_FIX_K3,
+}
+
 
 def parse_args():
     ap = argparse.ArgumentParser()
@@ -37,6 +45,9 @@ def parse_args():
     ap.add_argument("--rows", type=int, default=BOARD_INNER[1], help="内角点行数")
     ap.add_argument("--square", type=float, default=DEFAULT_SQUARE_MM,
                     help="实测方格边长(mm)。本项目屏幕实测 25.0；A4 打印版为 18.0")
+    ap.add_argument("--model", choices=list(DIST_FLAGS), default="full",
+                    help="畸变模型自由度：full=解 k1,k2,p1,p2,k3；"
+                         "k3fix=固定 k3、零切向；k1only=只解 k1（最保守）")
     ap.add_argument("--out", default=str(HERE / "results"))
     ap.add_argument("--figs", default=str(HERE / "q2_figs"))
     return ap.parse_args()
@@ -139,7 +150,7 @@ def main():
     print(f"[开始标定] 有效图 {len(objpoints)} 张，分辨率 {w}x{h}")
 
     rms, K, dist, rvecs, tvecs = cv2.calibrateCamera(
-        objpoints, imgpoints, (w, h), None, None
+        objpoints, imgpoints, (w, h), None, None, flags=DIST_FLAGS[args.model]
     )
 
     # 逐张重投影误差：把世界坐标点用解出的内外参投回图像，与检出的亚像素角点比距离
@@ -177,6 +188,27 @@ def main():
         print("可接受（0.5 ~ 1.0 px）")
     else:
         print("偏大（> 1.0 px），检查是否有模糊/反光/角点检出错误的图")
+
+    # ---- 畸变模型自洽性：径向映射在画面内必须单调 ----
+    # r_d = r(1 + k1r² + k2r⁴ + k3r⁶)，导数变负意味着该半径处映射折叠，
+    # 去畸变时四角会撕裂/重影。这是高阶系数过拟合的典型症状。
+    k1_, k2_, _, _, k3_ = dist_v[:5]
+    r_corner = max(
+        np.hypot((u - K[0, 2]) / K[0, 0], (v - K[1, 2]) / K[1, 1])
+        for u, v in [(0, 0), (w, 0), (0, h), (w, h)]
+    )
+    rs = np.linspace(0, r_corner * 1.2, 4000)
+    deriv = 1 + 3 * k1_ * rs**2 + 5 * k2_ * rs**4 + 7 * k3_ * rs**6
+    bad = np.where(deriv <= 0)[0]
+    print(f"\n[畸变模型] 画面角落归一化半径 r_corner = {r_corner:.4f}")
+    if not bad.size:
+        print("  径向映射在画面内单调，模型自洽 ✓")
+    elif rs[bad[0]] < r_corner:
+        print(f"  ⚠ 径向映射在 r = {rs[bad[0]]:.4f} 处开始折叠，落在画面内。")
+        print("    高阶系数过拟合，去畸变图四角可能出现撕裂。")
+        print("    对策：加 --model k3fix 重跑；或补拍「棋盘占画面 30% 以上、落在四角」的图。")
+    else:
+        print(f"  折叠点在 r = {rs[bad[0]]:.4f}，在画面之外，不影响 ✓")
 
     # ---------------------------------------------------------------- 落盘
     out_dir = Path(args.out)

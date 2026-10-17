@@ -1,0 +1,67 @@
+{
+  "image_size": [
+    1600,
+    1200
+  ],
+  "pattern_inner": [
+    9,
+    6
+  ],
+  "square_mm": 25.0,
+  "rms_reprojection_px": 0.320285,
+  "camera_matrix": [
+    [
+      1140.62444,
+      0.0,
+      804.66392
+    ],
+    [
+      0.0,
+      1142.0387,
+      602.4612
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "dist_coeffs": [
+    -0.040346,
+    0.428722,
+    0.000155,
+    0.000181,
+    -0.848883
+  ],
+  "focal": {
+    "fx": 1140.6244,
+    "fy": 1142.0387
+  },
+  "principal_point": {
+    "cx": 804.6639,
+    "cy": 602.4612
+  },
+  "per_image_error_px": {
+    "1756c0afb4e8d4273ccc925912653c29.jpg": 0.3382,
+    "187bd67e9bb314faade169bc6a584f99.jpg": 0.2867,
+    "2a94f087ec9b55388aa6afbd1cb91ac6.jpg": 0.3123,
+    "3ba748ff392d33c5d4887e68b61de4fe.jpg": 0.2245,
+    "3e65cecf54218b7597e29fb25c62d78b.jpg": 0.3067,
+    "3ea63a88b629da141e9b9a8718addaf2.jpg": 0.204,
+    "529bf7b9aa3086206ee8d7b0b4efd51f.jpg": 0.4006,
+    "533928a047d63fb8e0b402e633669700.jpg": 0.1829,
+    "66e081df057f53a87f36561f8cfb41b9.jpg": 0.1991,
+    "71e470d96eac426ab7daa220d32280d3.jpg": 0.2644,
+    "984108e4c430e844a2fa7b4862f61372.jpg": 0.266,
+    "a544af9c8c31b58b0f2c9ea570b4ce88.jpg": 0.3682,
+    "a7099efc8eb9bff7bb9ce867498e74a8.jpg": 0.3406,
+    "a8c07f2b0f438366d5b448bfd39b4a68.jpg": 0.2697,
+    "c966cffee3b708daf6580a106d19d2c2.jpg": 0.1965,
+    "d9000726d3ae6f488fd247b744ed1417.jpg": 0.2149,
+    "eb76c8d8e5a29eccf3afa3559a8ddfd8.jpg": 0.2973,
+    "f694fd058c759c6a96fc533f2b16f685.jpg": 0.1981,
+    "fda5b43091ba408ba84a503ab62c5034.jpg": 0.3443
+  },
+  "num_images_used": 19,
+  "num_images_failed": 0
+}

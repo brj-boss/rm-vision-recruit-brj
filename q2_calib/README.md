@@ -16,7 +16,8 @@
 | `gen_chessboard.py` | 生成棋盘格。`--a4` 出打印版（毫米制，300 DPI），`--screen` 出满屏版（像素制，按显示器原生分辨率） |
 | `capture_calib.py` | **笔记本摄像头**采集，20 个姿态逐个引导 + 实时角点校验，检不出不允许保存 |
 | `check_images.py` | **手机照片**入库前处理：EXIF 转正 → 竖拍自动旋转 90° → 缩放 → 角点批量检查，输出可用副本与检查拼图 |
-| `calibrate.py` | 角点提取 → `cornerSubPix` 亚像素精化 → `calibrateCamera` → 逐张重投影误差 |
+| `calibrate.py` | 角点提取 → `cornerSubPix` 亚像素精化 → `calibrateCamera` → 逐张重投影误差；含畸变模型折叠自检 |
+| `undistort.py` | 去畸变对比（三栏 + 角落放大）与模型体检（直线度、径向单调性） |
 | `_selftest.py` | 合成数据自检：用已知真值的 `(K, dist)` 渲染 → 反解 → 比对，验证整条链路 |
 | `CAPTURE_GUIDE.md` | 拍摄指南（屏幕方案）：屏幕/手机设置、20 张姿态表、卷尺要求、传图方式 |
 | `board/` | 棋盘格文件：`chessboard_9x6_18mm_a4.png`（打印版）、`chessboard_9x6_screen_1920x1200.png`（满屏版） |
