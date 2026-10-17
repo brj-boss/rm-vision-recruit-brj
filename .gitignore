@@ -26,3 +26,10 @@ data/
 # 注意：需要交付的结果视频 / GIF 仍然要入库
 qA_aim/figures/**/*.raw.mp4
 qA_aim/figures/**/frames/
+
+# ============ 题二手机原图 ============
+# 12MP 原图单张 3~5MB，20 张上百 MB，不入库。
+# 转正缩小后的副本放在 q2_calib/calib_images/，那份入库。
+q2_calib/phone_raw/*
+!q2_calib/phone_raw/.gitkeep
+

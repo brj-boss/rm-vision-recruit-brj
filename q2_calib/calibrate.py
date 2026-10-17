@@ -40,6 +40,27 @@ def parse_args():
     return ap.parse_args()
 
 
+def imread_upright(path: Path):
+    """读图并按 EXIF 转正。
+
+    手机竖拍的照片像素是横的，方向信息只在 EXIF 里，cv2.imread 不读 EXIF。
+    虽然角点照样能检出（标定结果不受影响），但拼图和报告里的图会全躺倒。
+    优先用 PIL 按 EXIF 转正，失败时退回 cv2。
+    """
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        return cv2.imread(str(path))
+
+    try:
+        with Image.open(path) as im:
+            im = ImageOps.exif_transpose(im).convert("RGB")
+            arr = np.array(im)
+        return arr[:, :, ::-1].copy()
+    except Exception:
+        return cv2.imread(str(path))
+
+
 def collect(img_dir: Path, pattern, square_mm):
     """遍历图片，返回 objpoints / imgpoints / 每张图的覆盖率 / 跳过的文件。"""
     # 世界坐标：棋盘平铺在 z=0 平面上，一格一个单位。
@@ -53,7 +74,7 @@ def collect(img_dir: Path, pattern, square_mm):
 
     objpoints, imgpoints, records, failed = [], [], [], []
     for f in files:
-        img = cv2.imread(str(f))
+        img = imread_upright(f)
         if img is None:
             failed.append((f.name, "读取失败"))
             continue
@@ -63,7 +84,17 @@ def collect(img_dir: Path, pattern, square_mm):
             cv2.CALIB_CB_ADAPTIVE_THRESH | cv2.CALIB_CB_NORMALIZE_IMAGE,
         )
         if not found:
-            failed.append((f.name, "未检出角点"))
+            # 行列对调说明这张图是竖着拍的（手机常见）。强制旋转会让角点顺序
+            # 与其他图不一致，进而污染 objp，所以这里只报错不擅自处理。
+            rev = (pattern[1], pattern[0])
+            ok_rev, _ = cv2.findChessboardCorners(
+                gray, rev,
+                cv2.CALIB_CB_ADAPTIVE_THRESH | cv2.CALIB_CB_NORMALIZE_IMAGE,
+            )
+            if ok_rev:
+                failed.append((f.name, f"方向旋转 90°（内角点呈 {rev[0]}x{rev[1]}）"))
+            else:
+                failed.append((f.name, "未检出角点"))
             continue
         corners = cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
         objpoints.append(objp)
