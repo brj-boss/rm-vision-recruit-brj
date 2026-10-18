@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""题二 · 单目测距（solvePnP + A4 纸）
+"""题二 · 单目测距（solvePnP + 已知尺寸纸）
 
-原理：A4 纸尺寸已知（210 × 297 mm），检测出它在照片里的四个角，
+原理：目标纸尺寸已知（实测 230 × 285 mm），检测出它在照片里的四个角，
 用标定得到的 (K, dist) 解 PnP，得到纸坐标系相对相机的平移 tvec。
 把 A4 的四个角点以**纸中心**为原点建模，‖tvec‖ 就是相机光心到纸中心的距离。
 
@@ -32,8 +32,10 @@ RES = HERE / "results"
 FONT_PATH = "C:/Windows/Fonts/msyh.ttc"
 
 TARGET_LONG_EDGE = 1600          # 与标定图一致的尺度
-A4_W, A4_H = 210.0, 297.0        # mm
-ASPECT = A4_H / A4_W             # 1.414
+# 目标纸实测尺寸（mm）。你的纸不是标准 A4，务必量准后改这里。
+# 只要长宽比能区分横竖放即可（这里 285/230=1.239）。
+PAPER_W, PAPER_H = 230.0, 285.0
+ASPECT = PAPER_H / PAPER_W       # 1.239
 
 
 def imread_upright(path: Path) -> np.ndarray:
@@ -59,9 +61,9 @@ def order_corners(pts: np.ndarray) -> np.ndarray:
 
 
 def detect_a4(bgr: np.ndarray):
-    """检测画面里的 A4 白纸，返回 4 角（已排序）或 None。
+    """检测画面里的白纸，返回 4 角（已排序）或 None。
 
-    过滤条件：四边形 + 面积 > 2% 画面 + 长宽比接近 √2（容忍拍摄透视带来的偏差）。
+    过滤条件：四边形 + 面积 > 2% 画面 + 长宽比接近 1.239（容忍拍摄透视带来的偏差）。
     """
     g = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
     g = cv2.GaussianBlur(g, (5, 5), 0)
@@ -80,7 +82,7 @@ def detect_a4(bgr: np.ndarray):
         top = np.linalg.norm(pts[1] - pts[0])
         left = np.linalg.norm(pts[3] - pts[0])
         long_e, short_e = max(top, left), min(top, left)
-        if short_e < 1e-6 or not (1.20 < long_e / short_e < 1.70):
+        if short_e < 1e-6 or not (1.12 < long_e / short_e < 1.40):
             continue
         return pts
     return None
@@ -90,10 +92,10 @@ def solve_distance(pts: np.ndarray, K, dist) -> tuple[float, np.ndarray]:
     """四角 → PnP → 相机到纸中心的距离(mm)。"""
     top = np.linalg.norm(pts[1] - pts[0])
     left = np.linalg.norm(pts[3] - pts[0])
-    if top > left:                                   # 横放：宽 297，高 210
-        w, h = A4_H, A4_W
-    else:                                            # 竖放：宽 210，高 297
-        w, h = A4_W, A4_H
+    if top > left:                                   # 横放：宽 285，高 230
+        w, h = PAPER_H, PAPER_W
+    else:                                            # 竖放：宽 230，高 285
+        w, h = PAPER_W, PAPER_H
     objp = np.array([(-w/2, -h/2, 0), (w/2, -h/2, 0),
                      (w/2, h/2, 0), (-w/2, h/2, 0)], np.float32)
     ok, rvec, tvec = cv2.solvePnP(objp, pts.reshape(-1, 1, 2).astype(np.float32),
@@ -127,8 +129,8 @@ def selftest() -> None:
     for d_true in (500.0, 1000.0, 1500.0, 2000.0, 3000.0):
         rvec = rng.normal(0, 0.12, 3)                     # ±7° 左右的姿态扰动
         tvec = np.array([rng.normal(0, 20), rng.normal(0, 20), d_true])
-        objp = np.array([(-A4_W/2, -A4_H/2, 0), (A4_W/2, -A4_H/2, 0),
-                         (A4_W/2, A4_H/2, 0), (-A4_W/2, A4_H/2, 0)], np.float32)
+        objp = np.array([(-PAPER_W/2, -PAPER_H/2, 0), (PAPER_W/2, -PAPER_H/2, 0),
+                         (PAPER_W/2, PAPER_H/2, 0), (-PAPER_W/2, PAPER_H/2, 0)], np.float32)
         imgp, _ = cv2.projectPoints(objp, rvec, tvec, K, dist)
         d_est, _ = solve_distance(order_corners(imgp.reshape(-1, 2)), K, dist)
         err = d_est - d_true
