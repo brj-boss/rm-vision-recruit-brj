@@ -18,6 +18,7 @@
 | `check_images.py` | **手机照片**入库前处理：EXIF 转正 → 竖拍自动旋转 90° → 缩放 → 角点批量检查，输出可用副本与检查拼图 |
 | `calibrate.py` | 角点提取 → `cornerSubPix` 亚像素精化 → `calibrateCamera` → 逐张重投影误差；含畸变模型折叠自检 |
 | `undistort.py` | 去畸变对比（三栏 + 角落放大）与模型体检（直线度、径向单调性） |
+| `measure.py` | 单目测距：A4 四角检测 → `solvePnP` → 相机到纸中心距离；`--truth` 传卷尺真值出误差表，`--selftest` 合成自检 |
 | `_selftest.py` | 合成数据自检：用已知真值的 `(K, dist)` 渲染 → 反解 → 比对，验证整条链路 |
 | `CAPTURE_GUIDE.md` | 拍摄指南（屏幕方案）：屏幕/手机设置、20 张姿态表、卷尺要求、传图方式 |
 | `board/` | 棋盘格文件：`chessboard_9x6_18mm_a4.png`（打印版）、`chessboard_9x6_screen_1920x1200.png`（满屏版） |
@@ -64,7 +65,11 @@ cd D:\rm-vision-recruit-brj
 .venv\Scripts\python.exe q2_calib\check_images.py
 
 # 4) 标定，--square 填实测值（本项目 25.0）
-.venv\Scripts\python.exe q2_calib\calibrate.py --square 25
+#    --model k3fix 为定稿参数：RMS 稍大但模型自洽（full 版 k3 过拟合，画面内折叠）
+.venv\Scripts\python.exe q2_calib\calibrate.py --square 25 --model k3fix
+
+# 5) A4 测距图放 measure_images/ 后（--truth 顺序按文件名排序对应）
+.venv\Scripts\python.exe q2_calib\measure.py --truth 0.52,1.02,1.53,2.01,2.98
 ```
 
 ## 自检结论（合成数据，已验证链路正确）
