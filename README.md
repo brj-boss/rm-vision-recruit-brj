@@ -2,14 +2,14 @@
 
 ## 0. 基本信息
 
-| 项目 | 内容 |
-|---|---|
-| 姓名 | 待填 |
-| 学校 / 专业 | 待填 |
-| 考核时间 | 2026.10.16 – 2026.10.19 |
-| 仓库地址 | 待填（建好 GitHub 仓库后补上） |
-| 所选方向题 | **A 题　装甲板识别与运动预测** |
-| 运行环境 | Python 3.12（`.venv`）+ NumPy / OpenCV / Matplotlib / PyYAML，详见 `requirements.txt` |
+| 项目      | 内容                                                                               |
+| ------- | -------------------------------------------------------------------------------- |
+| 姓名      | 鲍仁杰                                                                              |
+| 学校 / 专业 | 浙江科技大学 / 人工智能                                                                     |
+| 考核时间    | 2026.10.16 – 2026.10.19                                                          |
+| 仓库地址    | https://github.com/brj-boss/rm-vision-recruit-brj                                     |
+| 所选方向题   | **A 题　装甲板识别与运动预测**                                                               |
+| 运行环境    | Python 3.12（`.venv`）+ NumPy / OpenCV / Matplotlib / PyYAML，详见 `requirements.txt` |
 
 ### 如何运行本仓库代码
 
@@ -29,22 +29,22 @@ python q2_calib/calibrate.py
 python qA_aim/detect.py
 ```
 
-> 说明：原始素材 `data/`（实拍视频、点云等）体积较大，且由考核包统一提供，故未纳入版本库。
+> 说明：原始素材 `data/`（实拍视频、点云等）体积较大，且由考核包统一提供，故未纳入版本库。  
 > 代码中一律使用相对路径 `data/...`，把 `data/` 放回仓库根目录即可直接运行。
 
 ---
 
 ## 1. 完成情况一览
 
-| 题目 | 基本要求 | 发挥部分 | 备注 |
-|---|---|---|---|
-| 题一　开发环境与工程规范 | ✅ 完成 | ⬜ 待补（WSL2） | Python 3.12 环境 + Git 仓库 |
-| 题二　相机标定与单目测距 | ✅ 标定完成，测距待拍图 | ⬜ | 标定定稿 k3fix，RMS 0.406px |
-| A 题　装甲板识别与运动预测 | ✅ 完成 | ✅ 完成（小陀螺 + Q/R） | 4 段视频识别 + PnP + 卡尔曼预测 + 小陀螺 |
-| 附加题一　PyTorch + ONNX 分类网络 | — | ⬜ 未做 | |
-| 附加题二　ARM/x86、NPU/GPU 比较 | — | ⬜ 未做 | |
-| 附加题三　自瞄命中率论述 | — | ⬜ 未做 | |
-| 附加题四　开源项目评述 | — | ⬜ 未做 | |
+| 题目                       | 基本要求         | 发挥部分            | 备注                          |
+| ------------------------ | ------------ | --------------- | --------------------------- |
+| 题一　开发环境与工程规范             | ✅ 完成         | ⬜ 待补（WSL2）      | Python 3.12 环境 + Git 仓库     |
+| 题二　相机标定与单目测距             | ✅ 标定完成，测距待拍图 | ⬜               | 标定定稿 k3fix，RMS 0.406px      |
+| A 题　装甲板识别与运动预测           | ✅ 完成         | ✅ 完成（小陀螺 + Q/R） | 4 段视频识别 + PnP + 卡尔曼预测 + 小陀螺 |
+| 附加题一　PyTorch + ONNX 分类网络 | —            | ⬜ 未做            |                             |
+| 附加题二　ARM/x86、NPU/GPU 比较  | —            | ⬜ 未做            |                             |
+| 附加题三　自瞄命中率论述             | —            | ⬜ 未做            |                             |
+| 附加题四　开源项目评述              | —            | ⬜ 未做            |                             |
 
 ---
 
@@ -52,15 +52,15 @@ python qA_aim/detect.py
 
 ### 2.1 环境搭建
 
-| 组件 | 版本 |
-|---|---|
-| Python | 3.12.14（项目 `.venv`） |
-| numpy | 2.5.4 |
-| opencv-python | 5.0.0.93 |
-| matplotlib | 3.11.2 |
-| PyYAML | 6.0.3 |
-| Git | 已配置（含 GitHub 代理） |
-| 操作系统 | Windows 11（Build 26200） |
+| 组件            | 版本                      |
+| ------------- | ----------------------- |
+| Python        | 3.12.14（项目 `.venv`）     |
+| numpy         | 2.5.4                   |
+| opencv-python | 5.0.0.93                |
+| matplotlib    | 3.11.2                  |
+| PyYAML        | 6.0.3                   |
+| Git           | 已配置（含 GitHub 代理）        |
+| 操作系统          | Windows 11（Build 26200） |
 
 安装命令：
 
@@ -121,16 +121,16 @@ rm-vision-recruit-brj/
 
 ### 3.4 单目测距（PnP）
 
-> ⚠️ 测距图尚未拍摄，此表待补。拍完 5 组（0.5/1.0/1.5/2.0/3.0 m，卷尺入镜）后运行
+> ⚠️ 测距图尚未拍摄，此表待补。拍完 5 组（0.5/1.0/1.5/2.0/3.0 m，卷尺入镜）后运行  
 > `.venv\Scripts\python.exe q2_calib/measure.py --truth <5个真值>` 得到误差表填回此处。
 
 | 序号 | 实测距离 (m) | 计算距离 (m) | 误差 (m) | 相对误差 |
-|---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
+| -- | -------- | -------- | ------ | ---- |
+| 1  |          |          |        |      |
+| 2  |          |          |        |      |
+| 3  |          |          |        |      |
+| 4  |          |          |        |      |
+| 5  |          |          |        |      |
 
 > 测距目标纸尺寸为实测 **230 × 285 mm**（非标准 A4），已写入 `measure.py`。`measure.py --selftest` 合成自检 500~3000 mm 五距离最大误差 0.04%，链路已验证可靠。
 
@@ -171,32 +171,32 @@ rm-vision-recruit-brj/
 
 **灯条筛选判据**（`find_lights`）：
 
-| 判据 | 阈值 | 设计依据 |
-|---|---|---|
-| 亮度阈值 `v_min` | 170（蓝方视频 60） | 灯条发光亮度远高于背景 |
-| 最小面积 `area_min` | 6（蓝方 3） | 滤掉噪点、小反光 |
-| 长宽比 `ratio_min` | 3.0 | 灯条是细长竖直条，区别于圆形光斑 |
-| 长边方向 | 接近竖直（minAreaRect 角度 >45°） | 排除水平亮条（如窗帘漏光） |
+| 判据              | 阈值                        | 设计依据             |
+| --------------- | ------------------------- | ---------------- |
+| 亮度阈值 `v_min`    | 170（蓝方视频 60）              | 灯条发光亮度远高于背景      |
+| 最小面积 `area_min` | 6（蓝方 3）                   | 滤掉噪点、小反光         |
+| 长宽比 `ratio_min` | 3.0                       | 灯条是细长竖直条，区别于圆形光斑 |
+| 长边方向            | 接近竖直（minAreaRect 角度 >45°） | 排除水平亮条（如窗帘漏光）    |
 
 **灯条配对判据**（`match_lights`）：
 
-| 判据 | 阈值 | 设计依据 |
-|---|---|---|
-| 长度比 ≥0.7 | 两灯条等长 | 同一装甲板两灯条物理等长 |
-| 倾角差 ≤12° | 两灯条平行 | 同一装甲板两灯条同向 |
-| 顶端高度差 ≤0.5×灯条长 | 顶端大致齐平 | 跨板配对顶端错位大 |
-| 连线倾角 ≤35° | 两灯条连线近水平 | 装甲板横置 |
-| 中心距/灯条长 ∈[1.5,4.5] | 真值 135/55≈2.45 | 过滤错误组合 |
+| 判据                 | 阈值             | 设计依据         |
+| ------------------ | -------------- | ------------ |
+| 长度比 ≥0.7           | 两灯条等长          | 同一装甲板两灯条物理等长 |
+| 倾角差 ≤12°           | 两灯条平行          | 同一装甲板两灯条同向   |
+| 顶端高度差 ≤0.5×灯条长     | 顶端大致齐平         | 跨板配对顶端错位大    |
+| 连线倾角 ≤35°          | 两灯条连线近水平       | 装甲板横置        |
+| 中心距/灯条长 ∈[1.5,4.5] | 真值 135/55≈2.45 | 过滤错误组合       |
 
 **关键点顺序**：左灯条上端 → 左灯条下端 → 右灯条下端 → 右灯条上端（逆时针），与 PnP 的 3D 点一一对应。
 
 识别结果视频（标出四边形与关键点顺序）：
 
-| 视频 | 文件 |
-|---|---|
-| 远距离平移 | `qA_aim/figures/detect_far_trans.mp4` |
-| 中距离陀螺 | `qA_aim/figures/detect_mid_spin.mp4` |
-| 近距离陀螺 | `qA_aim/figures/detect_near_spin.mp4` |
+| 视频    | 文件                                        |
+| ----- | ----------------------------------------- |
+| 远距离平移 | `qA_aim/figures/detect_far_trans.mp4`     |
+| 中距离陀螺 | `qA_aim/figures/detect_mid_spin.mp4`      |
+| 近距离陀螺 | `qA_aim/figures/detect_near_spin.mp4`     |
 | 装甲板_蓝 | `qA_aim/figures/detect_blue.mp4`（仅识别，无位姿） |
 
 ### 4.3 位姿解算
@@ -210,6 +210,7 @@ rm-vision-recruit-brj/
 位置随时间曲线与俯视轨迹：
 
 ![位置曲线](qA_aim/figures/far_trans_traj.png)
+
 ![观测/滤波/预测对比](qA_aim/figures/pred_compare.png)
 
 ### 4.4 运动预测（卡尔曼滤波）
@@ -226,12 +227,12 @@ rm-vision-recruit-brj/
 
 预测值与 0.25 s 后实际观测值的对比与误差统计（自检①）：
 
-| 轴 | mean (mm) | std (m) | 最大误差 (m) |
-|---|---|---|---|
-| x | +6.8 | 0.298 | 0.895 |
-| y | +0.8 | 0.022 | 0.175 |
-| z | −5.1 | 0.128 | 0.981 |
-| 3D 距离 | median 177 mm | — | p95 705 mm |
+| 轴     | mean (mm)     | std (m) | 最大误差 (m)   |
+| ----- | ------------- | ------- | ---------- |
+| x     | +6.8          | 0.298   | 0.895      |
+| y     | +0.8          | 0.022   | 0.175      |
+| z     | −5.1          | 0.128   | 0.981      |
+| 3D 距离 | median 177 mm | —       | p95 705 mm |
 
 ![预测误差](qA_aim/figures/pred_error.png)
 
@@ -249,6 +250,7 @@ rm-vision-recruit-brj/
   - 结果文件：`qA_aim/pred_中距离陀螺.csv`、`pred_近距离陀螺.csv`（格式 `t,cx,cy,cz,omega`）
   - 图：`qA_aim/figures/spin_center_*.png`、`spin_omega_*.png`
 - **Q、R 参数分析**：对比了「Q 小（平滑但滞后）」「Q 大（跟随快，采用）」「R 大（过度平滑）」三组参数对预测误差的影响，见 `qA_aim/figures/qr_compare.png`。Q 大（1e-3/0.5）比 Q 小（1e-4/1e-2）把中位误差从 237 mm 降到 177 mm，说明目标加速度较大、需更快跟随。
+
 
 ### 4.7 问题回答
 
@@ -277,8 +279,8 @@ rm-vision-recruit-brj/
 
 实测（`远距离平移` 三个不同位置，装甲板从画面左侧移到右侧）：
 
-| 关键点中心 x | 用畸变 z | 不用畸变 z | 差异 |
-|---|---|---|---|
+| 关键点中心 x    | 用畸变 z   | 不用畸变 z  | 差异      |
+| ---------- | ------- | ------- | ------- |
 | 907 px（偏右） | 5.543 m | 5.555 m | 0.012 m |
 | 519 px（近中） | 5.528 m | 5.533 m | 0.005 m |
 | 331 px（偏左） | 5.679 m | 5.672 m | 0.007 m |
@@ -316,10 +318,10 @@ PnP 依赖「2D 关键点 ↔ 3D 点」的一一对应。顺序错了会导致�
 
 待填：网络结构、数据集、训练曲线、ONNX 导出、PyTorch 与 ONNX Runtime 的 CPU 推理速度对比。
 
-| 框架 | 平均单张耗时 (ms) | 备注 |
-|---|---|---|
-| PyTorch | | |
-| ONNX Runtime | | |
+| 框架           | 平均单张耗时 (ms) | 备注 |
+| ------------ | ----------- | -- |
+| PyTorch      |             |    |
+| ONNX Runtime |             |    |
 
 ### 附加题二　ARM 与 x86 / NPU 与 GPU
 
@@ -339,16 +341,16 @@ PnP 依赖「2D 关键点 ↔ 3D 点」的一一对应。顺序错了会导致�
 
 > 记录考核过程中实际遇到的问题及解决方法（真实、具体）。
 
-| # | 遇到的问题 | 现象 / 报错 | 排查过程 | 解决方法 |
-|---|---|---|---|---|
-| 1 | Git push 连不上 GitHub | `fatal: unable to access github.com:443` | 直连 20s 超时，但浏览器能上 GitHub | 发现 git 不读系统代理，配置 `git config --global http.https://github.com.proxy http://127.0.0.1:7897` |
-| 2 | 系统 Python 调不到 numpy | `ModuleNotFoundError: numpy` | 发现 numpy 装在别的 env 里，系统 Python 是干净的 | 新建项目 `.venv`（3.12），`pip install -r requirements.txt` |
-| 3 | 标定角点检出为 0 | 合成自检 0 张成功 | 9×6 内角点对应 11×8 顶点，误写成 PATTERN+1 | 改为 PATTERN+2 |
-| 4 | 标定退化 | fx=4982（真值 905） | 20 张全正对 → 标定病态 | 修正姿态表，加入倾斜/旋转/角落构图 |
-| 5 | 竖拍照片躺倒 | 棋盘横着检不出 | `cv2.imread` 不读 EXIF 方向 | 改用 PIL 读图并按 EXIF 转正 |
-| 6 | 装甲板灯条检不出 | 0 条检测 | minAreaRect 竖直灯条角度是 -90°，方向判断误杀 | 修正角度约定（长边竖直 = ang 接近 ±90°） |
-| 7 | 跨装甲板灯条误配对 | 多检出一块跨板装甲板 | 相邻装甲板四根灯条两两组合 | 加「顶端高度差 ≤0.5×灯条长」判据 |
-| 8 | 预测误差偏大 | 3D 中位误差 237mm | CV 模型对正弦往复换向滞后 | 调大 Q（1e-3/0.5）跟随更快，降至 177mm；报告讨论 CA/IMM |
+| # | 遇到的问题               | 现象 / 报错                                  | 排查过程                               | 解决方法                                                                                       |
+| - | ------------------- | ---------------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------ |
+| 1 | Git push 连不上 GitHub | `fatal: unable to access github.com:443` | 直连 20s 超时，但浏览器能上 GitHub            | 发现 git 不读系统代理，配置 `git config --global http.https://github.com.proxy http://127.0.0.1:7897` |
+| 2 | 系统 Python 调不到 numpy | `ModuleNotFoundError: numpy`             | 发现 numpy 装在别的 env 里，系统 Python 是干净的 | 新建项目 `.venv`（3.12），`pip install -r requirements.txt`                                       |
+| 3 | 标定角点检出为 0           | 合成自检 0 张成功                               | 9×6 内角点对应 11×8 顶点，误写成 PATTERN+1    | 改为 PATTERN+2                                                                               |
+| 4 | 标定退化                | fx=4982（真值 905）                          | 20 张全正对 → 标定病态                     | 修正姿态表，加入倾斜/旋转/角落构图                                                                         |
+| 5 | 竖拍照片躺倒              | 棋盘横着检不出                                  | `cv2.imread` 不读 EXIF 方向            | 改用 PIL 读图并按 EXIF 转正                                                                        |
+| 6 | 装甲板灯条检不出            | 0 条检测                                    | minAreaRect 竖直灯条角度是 -90°，方向判断误杀    | 修正角度约定（长边竖直 = ang 接近 ±90°）                                                                 |
+| 7 | 跨装甲板灯条误配对           | 多检出一块跨板装甲板                               | 相邻装甲板四根灯条两两组合                      | 加「顶端高度差 ≤0.5×灯条长」判据                                                                        |
+| 8 | 预测误差偏大              | 3D 中位误差 237mm                            | CV 模型对正弦往复换向滞后                     | 调大 Q（1e-3/0.5）跟随更快，降至 177mm；报告讨论 CA/IMM                                                    |
 
 ---
 
@@ -362,9 +364,9 @@ PnP 依赖「2D 关键点 ↔ 3D 点」的一一对应。顺序错了会导致�
 
 ## 参考资料
 
-- 廖雪峰 Git 教程：https://liaoxuefeng.com/books/git/introduction/index.html
-- OpenCV-Python 官方教程：https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html
-- OpenCV 相机标定：https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html
-- OpenCV solvePnP：https://docs.opencv.org/4.x/d5/d1f/calib3d_solvePnP.html
-- How a Kalman filter works, in pictures：https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/
-- rm_vision（开源自瞄系统）：https://github.com/chenjunnn/rm_vision
+- 廖雪峰 Git 教程：<https://liaoxuefeng.com/books/git/introduction/index.html>
+- OpenCV-Python 官方教程：<https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html>
+- OpenCV 相机标定：<https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html>
+- OpenCV solvePnP：<https://docs.opencv.org/4.x/d5/d1f/calib3d_solvePnP.html>
+- How a Kalman filter works, in pictures：<https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/>
+- rm_vision（开源自瞄系统）：<https://github.com/chenjunnn/rm_vision>
