@@ -81,7 +81,7 @@ uv pip install --python .venv\Scripts\python.exe -i https://pypi.tuna.tsinghua.e
 
 ## 4. 验证结果
 
-四项验证的实际输出如下，一一对应 `screenshots/` 中的截图。
+四项验证的实际输出如下，一一对应 `screenshots/basic/` 中的截图。
 
 **① 解释器版本**（`01_python_version.png`）
 
@@ -137,31 +137,31 @@ ALL 4 OK
 
 **① 解释器版本**
 
-<img src="screenshots/01_python_version.png" width="620" alt=".venv 中的 Python 3.12.14">
+<img src="screenshots/basic/01_python_version.png" width="620" alt=".venv 中的 Python 3.12.14">
 
 **② 包管理器归属**
 
-<img src="screenshots/02_pip_location.png" width="620" alt="pip 位于仓库 .venv 内">
+<img src="screenshots/basic/02_pip_location.png" width="620" alt="pip 位于仓库 .venv 内">
 
 **③ 依赖安装结果**
 
-<img src="screenshots/03_pip_list.png" width="620" alt="pip list 四个目标包版本">
+<img src="screenshots/basic/03_pip_list.png" width="620" alt="pip list 四个目标包版本">
 
 **④ 可导入性验证**
 
-<img src="screenshots/04_import_check.png" width="620" alt="四个库导入成功，ALL 4 OK">
+<img src="screenshots/basic/04_import_check.png" width="620" alt="四个库导入成功，ALL 4 OK">
 
 **⑤ 入库文件清单**
 
-<img src="screenshots/05_repo_files.png" width="620" alt="git ls-files 输出">
+<img src="screenshots/basic/05_repo_files.png" width="620" alt="git ls-files 输出">
 
 **⑥ 提交记录**
 
-<img src="screenshots/06_git_log.png" width="620" alt="git log --oneline">
+<img src="screenshots/basic/06_git_log.png" width="620" alt="git log --oneline">
 
 **⑦ 远程仓库页面**
 
-<img src="screenshots/07_github_repo.png" width="620" alt="GitHub 仓库首页">
+<img src="screenshots/basic/07_github_repo.png" width="620" alt="GitHub 仓库首页">
 
 **⑧ 发挥部分：WSL2 Ubuntu 24.04**
 
