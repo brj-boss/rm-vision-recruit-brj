@@ -38,7 +38,7 @@ python qA_aim/detect.py
 
 | 题目                       | 基本要求         | 发挥部分            | 备注                          |
 | ------------------------ | ------------ | --------------- | --------------------------- |
-| 题一　开发环境与工程规范             | ✅ 完成         | ⬜ 待补（WSL2）      | Python 3.12 环境 + Git 仓库     |
+| 题一　开发环境与工程规范             | ✅ 完成         | ✅ 完成（WSL2 Ubuntu 24.04） | Python 3.12 环境 + Git 仓库     |
 | 题二　相机标定与单目测距             | ✅ 标定完成，测距待拍图 | ⬜               | 标定定稿 k3fix，RMS 0.406px      |
 | A 题　装甲板识别与运动预测           | ✅ 完成         | ✅ 完成（小陀螺 + Q/R） | 4 段视频识别 + PnP + 卡尔曼预测 + 小陀螺 |
 | 附加题一　PyTorch + ONNX 分类网络 | —            | ⬜ 未做            |                             |
@@ -90,7 +90,15 @@ rm-vision-recruit-brj/
 
 ### 2.3 发挥部分：Linux 环境与基本命令
 
-待填（WSL2 / 虚拟机 / 双系统 三选一，附截图）
+**已完成（WSL2 + Ubuntu 24.04）**。选择 WSL2：Windows 11 原生支持，免装虚拟机软件、免双系统重启切换。
+
+| 项 | 值 |
+|---|---|
+| 发行版 | Ubuntu 24.04.5 LTS |
+| 内核 | 6.18.54.1-microsoft-standard-WSL2 |
+| 用户 | brj（非 root） |
+
+三条验证命令 `ls -la`、`top -n 1`、`cat /proc/cpuinfo | head` 均已执行并截图，详见 [`q1_env/README.md` 第 7 节](q1_env/README.md#7-发挥部分linux-环境wsl2--ubuntu-2404)与 `q1_env/screenshots/ubuntu/`。
 
 ---
 

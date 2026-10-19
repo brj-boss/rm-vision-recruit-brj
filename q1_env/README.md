@@ -124,6 +124,10 @@ ALL 4 OK
 | `05_repo_files.png` | `git ls-files` | 入库文件清单，仓库结构无冗余 |
 | `06_git_log.png` | `git log --oneline` | 提交记录，反映工作过程 |
 | `07_github_repo.png` | GitHub 仓库页面 | 远程仓库为 Public，结构完整 |
+| `ubuntu/01_ls_la.png` | WSL Ubuntu `ls -la` | 发挥：Linux 环境可用 |
+| `ubuntu/02_top.png` | WSL Ubuntu `top -n 1` | 发挥：进程与资源状态 |
+| `ubuntu/03_cpuinfo.png` | WSL Ubuntu CPU 信息 | 发挥：`/proc` 文件系统读取 |
+| `ubuntu/04_uname_osrelease.png` | 内核与发行版版本 | 发挥：Ubuntu 24.04.5 + WSL2 内核 |
 
 `06`、`07` 两张是**阶段性快照**，随提交次数增加会更新为最新状态。
 
@@ -159,6 +163,19 @@ ALL 4 OK
 
 <img src="screenshots/07_github_repo.png" width="620" alt="GitHub 仓库首页">
 
+**⑧ 发挥部分：WSL2 Ubuntu 24.04**
+
+<p>
+  <img src="screenshots/ubuntu/01_ls_la.png" width="360" alt="ls -la">
+  &nbsp;
+  <img src="screenshots/ubuntu/02_top.png" width="360" alt="top -n 1">
+</p>
+<p>
+  <img src="screenshots/ubuntu/03_cpuinfo.png" width="360" alt="cat /proc/cpuinfo | head">
+  &nbsp;
+  <img src="screenshots/ubuntu/04_uname_osrelease.png" width="360" alt="uname -a 与发行版版本">
+</p>
+
 ## 6. 文件组织说明
 
 **入库的**
@@ -178,10 +195,46 @@ ALL 4 OK
 > 原始素材不入库的取舍：评委 clone 后需自行放入 `data/` 才能复跑 A 题程序。
 > 素材来源已在根目录 `README.md` 中说明，面试时可随机器携带。
 
-## 7. 发挥部分：Ubuntu 22.04
+## 7. 发挥部分：Linux 环境（WSL2 + Ubuntu 24.04）
 
-**状态：尚未实施。**
+**状态：已完成。**
 
-计划通过 WSL2 安装 Ubuntu 22.04，在其中执行 `ls -la`、`top`、`cat /proc/cpuinfo | head` 并截图，存于 `screenshots/ubuntu/`。
+### 安装方式
 
-实施后本节补上：安装方式、内核与发行版版本号、三条命令的实际输出截图。
+Windows 11 自带 WSL，无需装虚拟机软件或双系统。实际执行过程：
+
+1. **管理员 PowerShell** 执行 `wsl --install`：自动安装 WSL 内核 3.0.3 与 `VirtualMachinePlatform` 组件，**重启电脑**生效
+2. 执行 `wsl --install -d Ubuntu-24.04` 安装 Ubuntu 24.04 LTS 发行版
+   > 安装时遇到的坑：分发清单从 `raw.githubusercontent.com` 拉取，直连报 `WININET_E_CONNECTION_RESET`、走代理后仍 502，最终经由其他途径完成下载安装（详见根 README 问题记录）
+3. 首次启动初始化时，WSL（NAT 模式）无法使用宿主机 localhost 代理导致联网初始化卡住；执行 `wsl --shutdown` 清理后重新启动，正常完成 OOBE 流程，创建用户 `brj`
+
+### 环境信息（`04_uname_osrelease.png`）
+
+| 项 | 值 |
+|---|---|
+| 发行版 | **Ubuntu 24.04.5 LTS** |
+| 内核 | **6.18.54.1-microsoft-standard-WSL2** |
+| 架构 | x86_64 |
+| 创建的用户 | brj（非 root，拥有 sudo） |
+
+### 三条验证命令的实际输出
+
+**① `ls -la`**（`01_ls_la.png`）——列出用户主目录，可见 `.bashrc`、`.profile` 等标准配置文件，用户为 `brj`
+
+**② `top -n 1`**（`02_top.png`）——系统进程一览：26 个进程、内存 767MiB/2048MiB、负载 0.01，`systemd` 正常运行
+
+**③ `cat /proc/cpuinfo | head`**（`03_cpuinfo.png`）——CPU 信息：AMD Ryzen 7 H 260 w/ Radeon 780M Graphics，主频 3792.898 MHz
+
+### 截图
+
+| 文件名 | 内容 |
+|---|---|
+| `screenshots/ubuntu/01_ls_la.png` | `ls -la` 输出 |
+| `screenshots/ubuntu/02_top.png` | `top -n 1` 输出 |
+| `screenshots/ubuntu/03_cpuinfo.png` | `cat /proc/cpuinfo \| head` 输出 |
+| `screenshots/ubuntu/04_uname_osrelease.png` | `uname -a` + 发行版版本 |
+
+### 两点体会
+
+1. WSL2 的文件互访很直接：Ubuntu 里 `/mnt/c/` 就是 Windows 的 C 盘，反过来 Windows 资源管理器输 `\\wsl$\Ubuntu-24.04` 能进 Linux 文件系统
+2. 首次初始化卡住时，先想到的是「等」和「重开」，但正确做法是 `wsl --shutdown` 彻底重启后端——这和 Windows 上处理「程序假死先重启进程」是同一个思路
