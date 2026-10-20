@@ -33,3 +33,7 @@ qA_aim/figures/**/frames/
 q2_calib/phone_raw/*
 !q2_calib/phone_raw/.gitkeep
 
+# ============ 测距废图 ============
+# 背景对比度不足、未检出的废图，不入库
+q2_calib/measure_images/_failed/
+

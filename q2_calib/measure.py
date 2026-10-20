@@ -60,18 +60,9 @@ def order_corners(pts: np.ndarray) -> np.ndarray:
                      p[np.argmax(s)], p[np.argmax(d)]], np.float32)
 
 
-def detect_a4(bgr: np.ndarray):
-    """检测画面里的白纸，返回 4 角（已排序）或 None。
-
-    过滤条件：四边形 + 面积 > 2% 画面 + 长宽比接近 1.239（容忍拍摄透视带来的偏差）。
-    """
-    g = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
-    g = cv2.GaussianBlur(g, (5, 5), 0)
-    _, bw = cv2.threshold(g, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    bw = cv2.morphologyEx(bw, cv2.MORPH_CLOSE,
-                          np.ones((9, 9), np.uint8))          # 补小洞
-    cnts, _ = cv2.findContours(bw, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    area_img = bgr.shape[0] * bgr.shape[1]
+def _quad_from_contours(bgr_gray: np.ndarray, area_img: int):
+    """从二值/边缘图中找符合长宽比的最大四边形，找不到返回 None。"""
+    cnts, _ = cv2.findContours(bgr_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     for c in sorted(cnts, key=cv2.contourArea, reverse=True)[:8]:
         if cv2.contourArea(c) < 0.02 * area_img:
             break
@@ -86,6 +77,31 @@ def detect_a4(bgr: np.ndarray):
             continue
         return pts
     return None
+
+
+def detect_a4(bgr: np.ndarray):
+    """检测画面里的白纸，返回 4 角（已排序）或 None。
+
+    两级策略：
+    1. Otsu 全局阈值（背景与纸对比度正常时最稳）；
+    2. 失败则降级 Canny 边缘 + 轮廓闭合（应对纸与背景亮度接近的场景）。
+    过滤条件：四边形 + 面积 > 2% 画面 + 长宽比接近 1.239（容忍拍摄透视带来的偏差）。
+    """
+    g = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    g = cv2.GaussianBlur(g, (5, 5), 0)
+    area_img = bgr.shape[0] * bgr.shape[1]
+
+    _, bw = cv2.threshold(g, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    bw = cv2.morphologyEx(bw, cv2.MORPH_CLOSE,
+                          np.ones((9, 9), np.uint8))          # 补小洞
+    pts = _quad_from_contours(bw, area_img)
+    if pts is not None:
+        return pts
+
+    # 降级：Canny 边缘，膨胀让边缘闭合成轮廓
+    edges = cv2.Canny(g, 50, 150)
+    edges = cv2.dilate(edges, np.ones((5, 5), np.uint8))
+    return _quad_from_contours(edges, area_img)
 
 
 def solve_distance(pts: np.ndarray, K, dist) -> tuple[float, np.ndarray]:
